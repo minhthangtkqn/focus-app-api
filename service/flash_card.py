@@ -30,16 +30,7 @@ class FlashCard(Resource):
     def get(self):
         return load_flash_card_list()
 
-
-class FlashCardAction(Resource):
-    def get(self, id):
-        flash_card_list = load_flash_card_list()
-        for item in flash_card_list:
-            if item["_id"] == id:
-                return item
-            return None
-
-    def post(self, id):
+    def post(self):
         data = request.get_json()
         flash_card_list = load_flash_card_list()
         new_flash_card = generate_flash_card_item(
@@ -48,6 +39,15 @@ class FlashCardAction(Resource):
         flash_card_list.append(new_flash_card)
         save_flash_card_list(flash_card_list)
         return new_flash_card
+
+
+class FlashCardActionWithId(Resource):
+    def get(self, id):
+        flash_card_list = load_flash_card_list()
+        for item in flash_card_list:
+            if item["_id"] == id:
+                return item
+            return None
 
     def delete(self, id):
         flash_card_list = load_flash_card_list()
