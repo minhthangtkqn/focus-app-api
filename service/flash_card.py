@@ -47,7 +47,7 @@ class FlashCardActionWithId(Resource):
         for item in flash_card_list:
             if item["_id"] == id:
                 return item
-            return None
+        return None
 
     def delete(self, id):
         flash_card_list = load_flash_card_list()

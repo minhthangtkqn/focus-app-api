@@ -5,28 +5,73 @@
         "description": "a device with four legs and a flat surface."
     },
     {
-        "_id": "ca82b568-870b-4417-9254-565eed59856d",
-        "title": "table",
-        "description": "a device with four legs and a flat surface."
+        "_id": "6984c72a-6e24-4d6c-b4d5-a7e00add74ff",
+        "title": "chair",
+        "description": "a seat for one person that has a back, usually four legs, and sometimes two arms."
     },
     {
-        "_id": "be5a8de0-8a5b-4a3c-bd0b-03f4479e8356",
-        "title": "table",
-        "description": "a device with four legs and a flat surface."
+        "_id": "13997e6d-0d5f-4841-8451-8f59886740da",
+        "title": "comb",
+        "description": "a flat piece of plastic, wood, or metal with a thin row of long, narrow parts along one side, used to tidy and arrange your hair."
     },
     {
-        "_id": "2defee12-4434-44ae-9be3-6811fa093dc4",
-        "title": "table",
-        "description": "a device with four legs and a flat surface."
+        "_id": "4010f0a9-0112-4c89-9b81-9698624cc7ae",
+        "title": "paper",
+        "description": "thin, flat material made from crushed wood or cloth, used for writing, printing, or drawing on."
     },
     {
-        "_id": "2af76073-50d3-4126-8bf5-6ec2fd9a3462",
-        "title": "table",
-        "description": "a device with four legs and a flat surface."
+        "_id": "4010f0a9-0112-4c89-9b81-9698624cc7ab",
+        "title": "smartphone",
+        "description": "A pocket-sized computer that combines a mobile phone with internet access, a camera, and various apps."
     },
     {
-        "_id": "b7dcd383-251c-4bac-8764-7f25e37aa422",
-        "title": "table",
-        "description": "a device with four legs and a flat surface."
+        "_id": "4010f0a9-0112-4c89-9b81-9698624cc7ac",
+        "title": "Bottle",
+        "description": "A container, usually made of glass or plastic, with a narrow neck for holding liquids."
+    },
+    {
+        "_id": "4010f0a9-0112-4c89-9b81-9698624cc7aa",
+        "title": "Monitor",
+        "description": "A display device that visually presents information from a computer."
+    },
+    {
+        "_id": "dbc4910d-229b-49d2-8ac6-bf76ea468a50",
+        "title": "month",
+        "description": "a period of about four weeks, especially one of the twelve periods into which a year is divided."
+    },
+    {
+        "_id": "550ca6b1-0cad-4a11-aa02-b4d21f73e3c2",
+        "title": "Piano",
+        "description": "A keyboard musical instrument with 88 keys, producing sounds through hammers striking strings."
+    },
+    {
+        "_id": "5d8888ad-f62e-424c-95e3-894d6fca3ed1",
+        "title": "Coat",
+        "description": "An outer garment worn for warmth and protection from the elements."
+    },
+    {
+        "_id": "4b76d2c0-e44d-48f8-99b1-79d649ba1263",
+        "title": "Shirt",
+        "description": "A garment worn on the upper body, typically with sleeves."
+    },
+    {
+        "_id": "a90c6adb-1832-4249-b6f0-d1911b9f0e94",
+        "title": "Ruler",
+        "description": "A flat, straight tool used for measuring length or drawing straight lines."
+    },
+    {
+        "_id": "37f90f13-06c3-47ab-b27d-389892ab93d2",
+        "title": "Pen",
+        "description": "A writing instrument that uses ink to create marks on paper."
+    },
+    {
+        "_id": "ddbe2885-cc6d-4058-9345-16a58da086fc",
+        "title": "Window",
+        "description": "An opening in a wall or vehicle that allows light and air to pass through."
+    },
+    {
+        "_id": "9c9a84eb-5db0-45dd-aa60-0663d295fa21",
+        "title": "Cup",
+        "description": "A small, open container used for drinking, typically made of ceramic, glass, or plastic."
     }
 ]
