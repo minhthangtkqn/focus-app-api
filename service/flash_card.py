@@ -4,6 +4,16 @@ from flask import request
 from flask_restful import Resource
 from . import flash_card_file_path
 from uuid import uuid4
+from datetime import datetime, timezone
+
+
+def get_current_time():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def insert_updated_time(flashcard):
+    flashcard["_updated"] = get_current_time()
+    return flashcard
 
 
 def generate_flash_card_item(title: str, description: str):
@@ -11,6 +21,7 @@ def generate_flash_card_item(title: str, description: str):
         "_id": uuid4().__str__(),
         "title": title,
         "description": description,
+        "_created": get_current_time(),
     }
 
 
@@ -48,6 +59,16 @@ class FlashCardActionWithId(Resource):
             if item["_id"] == id:
                 return item
         return None
+
+    def update(self, id):
+        data = request.get_json()
+        flash_card_list = load_flash_card_list()
+        for item in flash_card_list:
+            if item["_id"] == id:
+                item["title"] = data["title"]
+                item["description"] = data["description"]
+                insert_updated_time(item)
+        return {"Note": "Updated"}
 
     def delete(self, id):
         flash_card_list = load_flash_card_list()
