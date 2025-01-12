@@ -41,15 +41,20 @@ class FlashCard(Resource):
     def get(self):
         return load_flash_card_list()
 
-    def post(self):
-        data = request.get_json()
-        flash_card_list = load_flash_card_list()
-        new_flash_card = generate_flash_card_item(
-            title=data["title"], description=data["description"]
-        )
-        flash_card_list.append(new_flash_card)
-        save_flash_card_list(flash_card_list)
-        return new_flash_card
+
+class FlashCardActionWithoutId(Resource):
+    def post(self, command):
+        if command == "add-card":
+            data = request.get_json()["data"]
+            flash_card_list = load_flash_card_list()
+            new_flash_card = generate_flash_card_item(
+                title=data["title"], description=data["description"]
+            )
+            flash_card_list.append(new_flash_card)
+            save_flash_card_list(flash_card_list)
+            return new_flash_card
+
+        return None
 
 
 class FlashCardActionWithId(Resource):
@@ -60,19 +65,22 @@ class FlashCardActionWithId(Resource):
                 return item
         return None
 
-    def update(self, id):
-        data = request.get_json()
+    def post(self, id):
+        data = request.get_json()["data"]
+        print("data", data)
         flash_card_list = load_flash_card_list()
         for item in flash_card_list:
             if item["_id"] == id:
                 item["title"] = data["title"]
                 item["description"] = data["description"]
-                insert_updated_time(item)
+                item = insert_updated_time(item)
+                save_flash_card_list(flash_card_list)
+                break
         return {"Note": "Updated"}
 
     def delete(self, id):
         flash_card_list = load_flash_card_list()
-        for index, item in flash_card_list:
+        for index, item in enumerate(flash_card_list):
             if item["_id"] == id:
                 flash_card_list.pop(index)
                 save_flash_card_list(flash_card_list)
