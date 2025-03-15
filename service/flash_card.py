@@ -82,7 +82,7 @@ def add_flash_card_to_db(new_data):
             new_data["title"],
             new_data["description"],
             new_data["_created"],
-            f"'{new_data['_updated']}'" if new_data["_updated"] else "NULL",
+            f"'{new_data['_updated']}'" if new_data["_updated"] else None,
         ),
     )
     db_connection.commit()
