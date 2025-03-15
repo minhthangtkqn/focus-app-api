@@ -27,6 +27,23 @@ def generate_flash_card_item(title: str, description: str):
     }
 
 
+def create_flash_card_db():
+    db_connection = get_database_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute(
+        """create table cards (
+        _id VARCHAR(255),
+        title VARCHAR(255),
+        description VARCHAR(255),
+        _created VARCHAR(255),
+        _updated VARCHAR(255)
+    );"""
+    )
+    db_connection.commit()
+    db_cursor.close()
+    db_connection.close()
+
+
 def get_flash_card_list_from_db():
     db_connection = get_database_connection()
     db_cursor = db_connection.cursor()
@@ -69,7 +86,6 @@ def add_flash_card_to_db(new_data):
         ),
     )
     db_connection.commit()
-
     db_cursor.close()
     db_connection.close()
 
@@ -130,12 +146,16 @@ class FlashCardActionWithoutId(Resource):
 
         # return None
 
+        if command == "create-table":
+            create_flash_card_db()
+
         if command == "add-card":
             submitted_data = request.get_json()["data"]
             new_flash_card = generate_flash_card_item(
                 title=submitted_data["title"], description=submitted_data["description"]
             )
             add_flash_card_to_db(new_flash_card)
+
         return None
 
 
