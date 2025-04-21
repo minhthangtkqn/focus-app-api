@@ -4,6 +4,8 @@ from const.database import DATABASE_INFO, DATABASE_URL
 
 def get_database_connection():
     # return psycopg2.connect(**DATABASE_INFO) # shorter code, but not good IDE typing (for now)
+
+    # Use this when using OFFLINE database
     # return psycopg2.connect(
     #     database=DATABASE_INFO["database"],
     #     user=DATABASE_INFO["user"],
@@ -11,6 +13,8 @@ def get_database_connection():
     #     password=DATABASE_INFO["password"],
     #     port=DATABASE_INFO["port"],
     # )
+
+    # Use this when using ONLINE database
     return psycopg2.connect(DATABASE_URL)
 
 
