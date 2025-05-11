@@ -66,6 +66,9 @@ def init_flash_card_db():
             ('ddbe2885-cc6d-4058-9345-16a58da086fc', 'Window', 'An opening in a wall or vehicle that allows light and air to pass through.', '2025-01-12T07:50:32.019992+00:00', null),
             ('9c9a84eb-5db0-45dd-aa60-0663d295fa21', 'Cup', 'A small, open container used for drinking, typically made of ceramic, glass, or plastic.', '2025-01-12T07:50:32.019992+00:00', null),
             ('90650070-c2a8-4fdb-8338-480b2ff163b7', 'CPU', 'Brain of the computer, performs calculations.', '2025-01-12T07:50:32.019992+00:00', null)
+            ('3a390960-f78a-40fc-893c-273c613c2669', 'Box', 'A container with flat sides, often rectangular, used for storing or transporting items.', '2025-01-12T07:50:32.019992+00:00', null)
+            ('7f3dcbab-66e0-4e61-831f-9a8c96101ea9', 'Keyboard', 'A panel of keys that allows a user to input text and commands into a computer or other electronic device.', '2025-01-12T07:50:32.019992+00:00', null)
+            ('5a11cd55-b6eb-4452-9252-279c7724ac1d', 'Pillow', 'A soft cushion used to support the head or body, typically while sleeping or resting.', '2025-01-12T07:50:32.019992+00:00', null)
         ;"""
     )
     db_connection.commit()
