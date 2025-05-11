@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
+from service.gold_price import GoldPrice
 from service.people import People, PeopleAction
 from service.flash_card import (
     FlashCard,
@@ -22,6 +23,7 @@ api.add_resource(PeopleAction, "/name/<string:name>")
 api.add_resource(FlashCard, "/card/")
 api.add_resource(FlashCardActionWithoutId, "/card:<string:command>/")
 api.add_resource(FlashCardActionWithId, "/card/<string:id>")
+api.add_resource(GoldPrice, "/gold-price/")
 
 if __name__ == "__main__":
     app.run(debug=True)
