@@ -28,19 +28,20 @@ def parse_gold_price(html_str: str) -> List[Dict[str, str]]:
     """Parse the gold price table and return data."""
     soup = BeautifulSoup(html_str, "html.parser")
 
-    # table = soup.select("div.table_goldprice table")
     table = soup.find(class_="table_goldprice")
     rows = table.find_all("tr")
     data = []
-    headers = [th.get_text(strip=True) for th in rows[0].find_all("th")]
 
     for row in rows[1:]:
         cols = row.find_all("td")
         if not cols:
             continue
-        values = [td.get_text(strip=True) for td in cols]
-        entry = dict(zip(headers, values))
-        data.append(entry)
+        val = {
+            "name": cols[0].get_text(strip=True),
+            "buy_price": cols[1].get_text(strip=True),
+            "sell_price": cols[2].get_text(strip=True),
+        }
+        data.append(val)
 
     return data
 
