@@ -47,6 +47,10 @@ def get_gold_price_from_url():
         print(f"Error: {e}")
 
 
+def save_gold_price_to_database():
+    pass
+
+
 class GoldPrice(Resource):
     def get(self):
         return get_gold_price_from_url()
