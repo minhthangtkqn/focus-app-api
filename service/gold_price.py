@@ -2,8 +2,9 @@ from flask_restful import Resource
 from bs4 import BeautifulSoup
 import requests
 from typing import List, Dict
-
-from service.util import get_database_connection
+from service.util import get_current_time, get_database_connection
+from price_parser import Price
+from uuid import uuid4
 
 GOLD_PRICE_URL = "https://kimkhanhviethung.vn/tra-cuu-gia-vang.html"
 GOLD_PRICE_TABLE_NAME = "gold_price"
@@ -31,17 +32,31 @@ def parse_gold_price(html_str: str) -> List[Dict[str, str]]:
     table = soup.find(class_="table_goldprice")
     rows = table.find_all("tr")
     data = []
+    spec_sell_gold_price = None
 
     for row in rows[1:]:
         cols = row.find_all("td")
         if not cols:
             continue
+        if cols[0].get_text(strip=True) == "Vàng Nhẫn Khâu 9999":
+            spec_sell_gold_price = Price.fromstring(cols[2].get_text(strip=True))
+            if spec_sell_gold_price is not None:
+                spec_sell_gold_price = int(spec_sell_gold_price.amount)
         val = {
             "name": cols[0].get_text(strip=True),
             "buy_price": cols[1].get_text(strip=True),
             "sell_price": cols[2].get_text(strip=True),
         }
         data.append(val)
+
+    save_gold_price_to_database(
+        new_data={
+            gold_price_table_property["_id"]: uuid4().__str__(),
+            gold_price_table_property["price"]: spec_sell_gold_price,
+            gold_price_table_property["_created"]: get_current_time(),
+            gold_price_table_property["_updated"]: get_current_time(),
+        }
+    )
 
     return data
 

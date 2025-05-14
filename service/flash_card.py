@@ -2,14 +2,9 @@ import json
 import os
 from flask import request
 from flask_restful import Resource
-from service.util import get_database_connection, raw_data_to_list
+from service.util import get_current_time, get_database_connection, raw_data_to_list
 from . import flash_card_file_path
 from uuid import uuid4
-from datetime import datetime, timezone
-
-
-def get_current_time():
-    return datetime.now(timezone.utc).isoformat()
 
 
 def insert_updated_time(flashcard):

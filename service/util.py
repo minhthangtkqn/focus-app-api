@@ -1,5 +1,6 @@
 import psycopg2
 from const.database import DATABASE_INFO, DATABASE_URL
+from datetime import datetime, timezone
 
 
 def get_database_connection():
@@ -26,3 +27,7 @@ def raw_data_to_list(raw_row_list_data: list[tuple], column_name_list: list):
             returned_row[column_name] = row[column_name_index]
         normalize_list.append(returned_row)
     return normalize_list
+
+
+def get_current_time():
+    return datetime.now(timezone.utc).isoformat()
