@@ -2,7 +2,7 @@ from flask_restful import Resource
 from bs4 import BeautifulSoup
 import requests
 from typing import List, Dict
-from service.util import get_current_time, get_database_connection
+from service.util import get_current_time, get_database_connection, raw_data_to_list
 from price_parser import Price
 from uuid import uuid4
 
@@ -31,7 +31,7 @@ def parse_gold_price(html_str: str) -> List[Dict[str, str]]:
 
     table = soup.find(class_="table_goldprice")
     rows = table.find_all("tr")
-    data = []
+    data = None
     spec_sell_gold_price = None
 
     for row in rows[1:]:
@@ -42,12 +42,13 @@ def parse_gold_price(html_str: str) -> List[Dict[str, str]]:
             spec_sell_gold_price = Price.fromstring(cols[2].get_text(strip=True))
             if spec_sell_gold_price is not None:
                 spec_sell_gold_price = int(spec_sell_gold_price.amount)
-        val = {
-            "name": cols[0].get_text(strip=True),
-            "buy_price": cols[1].get_text(strip=True),
-            "sell_price": cols[2].get_text(strip=True),
-        }
-        data.append(val)
+        # val = {
+        #     "name": cols[0].get_text(strip=True),
+        #     "buy_price": cols[1].get_text(strip=True),
+        #     "sell_price": cols[2].get_text(strip=True),
+        # }
+        # data.append(val)
+        data = spec_sell_gold_price
 
     save_gold_price_to_database(
         new_data={
@@ -105,22 +106,24 @@ def remove_gold_price_table():
 
 
 def save_gold_price_to_database(new_data):
+    print("new_data", new_data)
     db_connection = get_database_connection()
     db_cursor = db_connection.cursor()
 
     db_cursor.execute(
         f"""INSERT INTO {GOLD_PRICE_TABLE_NAME} (
-            {gold_price_table_property['_id']}.
-            {gold_price_table_property['price']}.
-            {gold_price_table_property['_created']}.
+            {gold_price_table_property['_id']},
+            {gold_price_table_property['price']},
+            {gold_price_table_property['_created']},
             {gold_price_table_property['_updated']}
         )
-        VALUES (
-            {new_data["_id"]},
-            {new_data["price"]},
-            {new_data["_created"]},
-            {f"'{new_data['_updated']}'" if new_data["_updated"] else None}
-        );"""
+        VALUES (%s, %s, %s, %s);""",
+        (
+            new_data["_id"],
+            new_data["price"],
+            new_data["_created"],
+            f"'{new_data['_updated']}'" if new_data["_updated"] else None,
+        ),
     )
 
     db_connection.commit()
@@ -131,6 +134,23 @@ def save_gold_price_to_database(new_data):
 class GoldPrice(Resource):
     def get(self):
         return get_gold_price_from_url()
+
+
+def get_gold_price_list():
+    db_connection = get_database_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute(f"select * from {GOLD_PRICE_TABLE_NAME};")
+    rows = db_cursor.fetchall()
+    column_name_list = [column_info[0] for column_info in db_cursor.description]
+    response_data_list = raw_data_to_list(rows, column_name_list)
+    db_cursor.close()
+    db_connection.close()
+    return response_data_list
+
+
+class GoldPriceList(Resource):
+    def get(self):
+        return get_gold_price_list()
 
 
 class GoldPriceActionWithoutId(Resource):
