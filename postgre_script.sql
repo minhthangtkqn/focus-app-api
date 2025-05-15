@@ -6,6 +6,14 @@ create table cards (
 	_updated VARCHAR(255)
 );
 
+create table gold_price (
+	_id VARCHAR(255),
+	title VARCHAR(255),
+	price INT,
+	_created VARCHAR(255),
+	_updated VARCHAR(255)
+);
+
 
 insert into cards (_id, title, description, _created, _updated) 
 values 
@@ -31,4 +39,3 @@ values
 -- add _updated VARCHAR(255);
 -- delete from cards;
 -- select * from cards where _id = '420e72a4-7a71-4045-b29d-a5a3f8aff4bf';
-
