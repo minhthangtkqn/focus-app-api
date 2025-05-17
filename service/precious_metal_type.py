@@ -46,8 +46,8 @@ class PreciousMetalTypeActionWithoutId(Resource):
     def post(self, command):
         if command == "create-table":
             return create_table(
-                table_name=PRECIOUS_METAL_TYPE__TABLE_NAME,
-                create_table_script=f"""create table {PRECIOUS_METAL_TYPE__TABLE_NAME} (
+                PRECIOUS_METAL_TYPE__TABLE_NAME,
+                f"""create table {PRECIOUS_METAL_TYPE__TABLE_NAME} (
                     {precious_metal_type__table_property['_id']} VARCHAR(255),
                     {precious_metal_type__table_property['name']} VARCHAR(255),
                     {precious_metal_type__table_property['description']} VARCHAR(255),

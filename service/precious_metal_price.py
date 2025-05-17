@@ -154,8 +154,8 @@ class PreciousMetalPriceActionWithoutId(Resource):
     def post(self, command):
         if command == "create-table":
             return create_table(
-                table_name=PRECIOUS_METAL_PRICE__TABLE_NAME,
-                create_table_script=f"""create table {PRECIOUS_METAL_PRICE__TABLE_NAME} (
+                PRECIOUS_METAL_PRICE__TABLE_NAME,
+                f"""create table {PRECIOUS_METAL_PRICE__TABLE_NAME} (
                     {precious_metal_price_table_property['_id']} VARCHAR(255),
                     {precious_metal_price_table_property['type_id']} VARCHAR(255),
                     {precious_metal_price_table_property['buy_price']} INTEGER,
