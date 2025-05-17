@@ -2,7 +2,13 @@ from flask_restful import Resource
 from bs4 import BeautifulSoup
 import requests
 from typing import List, Dict
-from service.util import get_current_time, get_database_connection, raw_data_to_list
+from service.util import (
+    create_table,
+    get_current_time,
+    get_data_list_from_table,
+    get_database_connection,
+    remove_table,
+)
 from price_parser import Price
 from uuid import uuid4
 
@@ -50,7 +56,7 @@ def parse_gold_price(html_str: str) -> List[Dict[str, str]]:
         # data.append(val)
         data = spec_sell_gold_price
 
-    save_gold_price_to_database(
+    save_item_to_database(
         new_data={
             gold_price_table_property["_id"]: uuid4().__str__(),
             gold_price_table_property["price"]: spec_sell_gold_price,
@@ -78,38 +84,10 @@ def get_gold_price_from_url():
         print(f"Error: {e}")
 
 
-def create_gold_price_table():
-    db_connection = get_database_connection()
-    db_cursor = db_connection.cursor()
-    db_cursor.execute(
-        f"""create table {GOLD_PRICE_TABLE_NAME} (
-            {gold_price_table_property['_id']} VARCHAR(255),
-            {gold_price_table_property['price']} INTEGER,
-            {gold_price_table_property['_created']} VARCHAR(255),
-            {gold_price_table_property['_updated']} VARCHAR(255)
-        );"""
-    )
-    db_connection.commit()
-    db_cursor.close()
-    db_connection.close()
-    return "Create table successfully!"
-
-
-def remove_gold_price_table():
-    db_connection = get_database_connection()
-    db_cursor = db_connection.cursor()
-    db_cursor.execute(f"""drop table {GOLD_PRICE_TABLE_NAME};""")
-    db_connection.commit()
-    db_cursor.close()
-    db_connection.close()
-    return "Remove table successfully!"
-
-
-def save_gold_price_to_database(new_data):
+def save_item_to_database(new_data):
     print("new_data", new_data)
     db_connection = get_database_connection()
     db_cursor = db_connection.cursor()
-
     db_cursor.execute(
         f"""INSERT INTO {GOLD_PRICE_TABLE_NAME} (
             {gold_price_table_property['_id']},
@@ -125,7 +103,6 @@ def save_gold_price_to_database(new_data):
             f"'{new_data['_updated']}'" if new_data["_updated"] else None,
         ),
     )
-
     db_connection.commit()
     db_cursor.close()
     db_connection.close()
@@ -136,27 +113,23 @@ class GoldPrice(Resource):
         return get_gold_price_from_url()
 
 
-def get_gold_price_list():
-    db_connection = get_database_connection()
-    db_cursor = db_connection.cursor()
-    db_cursor.execute(f"select * from {GOLD_PRICE_TABLE_NAME};")
-    rows = db_cursor.fetchall()
-    column_name_list = [column_info[0] for column_info in db_cursor.description]
-    response_data_list = raw_data_to_list(rows, column_name_list)
-    db_cursor.close()
-    db_connection.close()
-    return response_data_list
-
-
 class GoldPriceList(Resource):
     def get(self):
-        return get_gold_price_list()
+        return get_data_list_from_table(GOLD_PRICE_TABLE_NAME)
 
 
 class GoldPriceActionWithoutId(Resource):
     def post(self, command):
         if command == "create-table":
-            return create_gold_price_table()
+            return create_table(
+                table_name=GOLD_PRICE_TABLE_NAME,
+                create_table_script=f"""create table {GOLD_PRICE_TABLE_NAME} (
+                    {gold_price_table_property['_id']} VARCHAR(255),
+                    {gold_price_table_property['price']} INTEGER,
+                    {gold_price_table_property['_created']} VARCHAR(255),
+                    {gold_price_table_property['_updated']} VARCHAR(255)
+                );""",
+            )
         if command == "remove-table":
-            return remove_gold_price_table()
+            return remove_table(GOLD_PRICE_TABLE_NAME)
         return None
