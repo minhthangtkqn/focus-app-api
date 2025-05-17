@@ -11,6 +11,7 @@ from service.flash_card import (
 from service.precious_metal_price import (
     PreciousMetalPrice,
     PreciousMetalPriceActionWithoutId,
+    PreciousMetalPriceList,
 )
 from service.precious_metal_type import (
     PreciousMetalType,
@@ -42,6 +43,7 @@ api.add_resource(
     PreciousMetalTypeActionWithoutId, "/precious-metal-type:<string:command>/"
 )
 api.add_resource(PreciousMetalPrice, "/precious-metal-price/")
+api.add_resource(PreciousMetalPriceList, "/precious-metal-price-list/")
 api.add_resource(
     PreciousMetalPriceActionWithoutId, "/precious-metal-price:<string:command>/"
 )
