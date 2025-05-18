@@ -45,7 +45,8 @@ class PreciousMetalType(Resource):
 class PreciousMetalTypeActionWithoutId(Resource):
     def post(self, command):
         if command == "create-table":
-            return create_table(
+            # create table
+            create_table(
                 PRECIOUS_METAL_TYPE__TABLE_NAME,
                 f"""create table {PRECIOUS_METAL_TYPE__TABLE_NAME} (
                     {precious_metal_type__table_property['_id']} VARCHAR(255),
@@ -55,9 +56,7 @@ class PreciousMetalTypeActionWithoutId(Resource):
                     {precious_metal_type__table_property['_updated']} VARCHAR(255)
                 );""",
             )
-        if command == "remove-table":
-            return remove_table(PRECIOUS_METAL_TYPE__TABLE_NAME)
-        if command == "init-data":
+            # initialize table data
             execute_script(
                 f"""insert into {PRECIOUS_METAL_TYPE__TABLE_NAME} (
                     {precious_metal_type__table_property['_id']},
@@ -70,4 +69,6 @@ class PreciousMetalTypeActionWithoutId(Resource):
                     ('14f3b6dd-6135-4b4e-a85a-a53e2ce2362e', 'Vàng Nhẫn Khâu 9999', 'Vàng Nhẫn Khâu 9999', '2025-05-14T15:17:54.423211+00:00', '2025-05-14T15:17:54.423224+00:00')
                 ;"""
             )
+        if command == "remove-table":
+            return remove_table(PRECIOUS_METAL_TYPE__TABLE_NAME)
         return None

@@ -45,6 +45,18 @@ def get_data_list_from_table(table_name: str):
     return response_data_list
 
 
+def get_data_list_from_table_by_script(script_str: str, script_vars=None):
+    db_connection = get_database_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute(script_str, script_vars)
+    rows = db_cursor.fetchall()
+    column_name_list = [column_info[0] for column_info in db_cursor.description]
+    response_data_list = raw_data_to_list(rows, column_name_list)
+    db_cursor.close()
+    db_connection.close()
+    return response_data_list
+
+
 def execute_script(script_str: str, script_vars=None):
     db_connection = get_database_connection()
     db_cursor = db_connection.cursor()

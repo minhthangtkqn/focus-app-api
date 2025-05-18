@@ -12,6 +12,7 @@ from service.util import (
     execute_script,
     get_current_time,
     get_data_list_from_table,
+    get_data_list_from_table_by_script,
     remove_table,
 )
 from price_parser import Price
@@ -147,13 +148,25 @@ class PreciousMetalPrice(Resource):
 
 class PreciousMetalPriceList(Resource):
     def get(self):
-        return get_data_list_from_table(PRECIOUS_METAL_PRICE__TABLE_NAME)
+        return get_data_list_from_table_by_script(
+            f"""select 
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_id']},
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['type_id']},
+                {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['name']},
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['buy_price']},
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['sell_price']},
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_created']},
+                {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_updated']}
+            from {PRECIOUS_METAL_TYPE__TABLE_NAME} join {PRECIOUS_METAL_PRICE__TABLE_NAME}
+            on {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['_id']} = {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['type_id']};"""
+        )
 
 
 class PreciousMetalPriceActionWithoutId(Resource):
     def post(self, command):
         if command == "create-table":
-            return create_table(
+            # create table
+            create_table(
                 PRECIOUS_METAL_PRICE__TABLE_NAME,
                 f"""create table {PRECIOUS_METAL_PRICE__TABLE_NAME} (
                     {precious_metal_price_table_property['_id']} VARCHAR(255),
@@ -164,9 +177,7 @@ class PreciousMetalPriceActionWithoutId(Resource):
                     {precious_metal_price_table_property['_updated']} VARCHAR(255)
                 );""",
             )
-        if command == "remove-table":
-            return remove_table(PRECIOUS_METAL_PRICE__TABLE_NAME)
-        if command == "init-data":
+            # initialize table data
             execute_script(
                 f"""insert into {PRECIOUS_METAL_PRICE__TABLE_NAME} (
                     {precious_metal_price_table_property['_id']},
@@ -216,4 +227,6 @@ class PreciousMetalPriceActionWithoutId(Resource):
                     ('8c93a06b-0eb8-48cc-882d-ccb3cad8fba1', '14f3b6dd-6135-4b4e-a85a-a53e2ce2362e', null, 10670000, '2025-05-17T11:27:49.470877+00:00', '2025-05-17T11:27:49.470892+00:00')
                 ;"""
             )
+        if command == "remove-table":
+            return remove_table(PRECIOUS_METAL_PRICE__TABLE_NAME)
         return None
