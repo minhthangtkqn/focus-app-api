@@ -158,7 +158,9 @@ class PreciousMetalPriceList(Resource):
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_created']},
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_updated']}
             from {PRECIOUS_METAL_TYPE__TABLE_NAME} join {PRECIOUS_METAL_PRICE__TABLE_NAME}
-            on {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['_id']} = {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['type_id']};"""
+            on {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['_id']} = {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['type_id']}
+            order by {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_created']} asc;
+            ;"""
         )
 
 
