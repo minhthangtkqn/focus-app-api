@@ -152,7 +152,7 @@ class PreciousMetalPriceList(Resource):
             f"""select 
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_id']},
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['type_id']},
-                {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['name']},
+                {PRECIOUS_METAL_TYPE__TABLE_NAME}.{precious_metal_type__table_property['name']} as type_name,
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['buy_price']},
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['sell_price']},
                 {PRECIOUS_METAL_PRICE__TABLE_NAME}.{precious_metal_price_table_property['_created']},
