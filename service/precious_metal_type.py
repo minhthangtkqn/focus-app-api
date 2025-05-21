@@ -57,18 +57,18 @@ class PreciousMetalTypeActionWithoutId(Resource):
                 );""",
             )
             # initialize table data
-            execute_script(
-                f"""insert into {PRECIOUS_METAL_TYPE__TABLE_NAME} (
-                    {precious_metal_type__table_property['_id']},
-                    {precious_metal_type__table_property['name']},
-                    {precious_metal_type__table_property['description']},
-                    {precious_metal_type__table_property['_created']},
-                    {precious_metal_type__table_property['_updated']}
-                ) 
-                values 
-                    ('14f3b6dd-6135-4b4e-a85a-a53e2ce2362e', 'Vàng Nhẫn Khâu 9999', 'Vàng Nhẫn Khâu 9999', '2025-05-14T15:17:54.423211+00:00', '2025-05-14T15:17:54.423224+00:00')
-                ;"""
-            )
+            # execute_script(
+            #     f"""insert into {PRECIOUS_METAL_TYPE__TABLE_NAME} (
+            #         {precious_metal_type__table_property['_id']},
+            #         {precious_metal_type__table_property['name']},
+            #         {precious_metal_type__table_property['description']},
+            #         {precious_metal_type__table_property['_created']},
+            #         {precious_metal_type__table_property['_updated']}
+            #     )
+            #     values
+            #         ('14f3b6dd-6135-4b4e-a85a-a53e2ce2362e', 'Vàng Nhẫn Khâu 9999', 'Vàng Nhẫn Khâu 9999', '2025-05-14T15:17:54.423211+00:00', '2025-05-14T15:17:54.423224+00:00')
+            #     ;"""
+            # )
         if command == "remove-table":
             return remove_table(PRECIOUS_METAL_TYPE__TABLE_NAME)
         return None

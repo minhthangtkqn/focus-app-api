@@ -15,4 +15,4 @@ DATABASE_INFO = {
     "port": 5432,
 }
 
-DATABASE_URL = "postgresql://focus_app_database_user:w3vwPUg9M3cgdwPwIYKQ2joPO8i8KTuq@dpg-d02ontbe5dus73c0mtl0-a.singapore-postgres.render.com/focus_app_database_nl5h"
+DATABASE_URL = "postgresql://focus_app_database_user:2oefPxPnUHnpTiEW8DS6il4NYo604RFA@dpg-d0mutlm3jp1c738nal70-a.singapore-postgres.render.com/focus_app_database_rf5w"
