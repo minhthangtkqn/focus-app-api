@@ -11,6 +11,7 @@ from service.util import (
 )
 from price_parser import Price
 from uuid import uuid4
+import warnings
 
 GOLD_PRICE_URL = "https://kimkhanhviethung.vn/tra-cuu-gia-vang.html"
 GOLD_PRICE_TABLE_NAME = "gold_price"
@@ -109,16 +110,22 @@ def save_item_to_database(new_data):
 
 
 class GoldPrice(Resource):
+    warnings.warn("This class is deprecated. Use PreciousMetalPrice instead.")
+
     def get(self):
         return get_gold_price_from_url()
 
 
 class GoldPriceList(Resource):
+    warnings.warn("This class is deprecated. Use PreciousMetalPrice instead.")
+
     def get(self):
         return get_data_list_from_table(GOLD_PRICE_TABLE_NAME)
 
 
 class GoldPriceActionWithoutId(Resource):
+    warnings.warn("This class is deprecated. Use PreciousMetalPrice instead.")
+
     def post(self, command):
         if command == "create-table":
             return create_table(
